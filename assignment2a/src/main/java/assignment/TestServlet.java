@@ -29,7 +29,6 @@ public class TestServlet extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		System.out.println("Test: init()");
 	}
 
 	/**
@@ -37,7 +36,6 @@ public class TestServlet extends HttpServlet {
 	 */
 	public void destroy() {
 		// TODO Auto-generated method stub
-		System.out.println("Test: destroy()");
 	}
 
 	/**
@@ -45,8 +43,19 @@ public class TestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Test: doGet()");
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		String firstname = request.getParameter("firstname");
+		String lastname = request.getParameter("lastname");
+		if(firstname.isBlank() || lastname.isBlank())
+		{
+			request.getRequestDispatcher("TestError.jsp").forward(request, response);
+		}
+		else {
+		request.setAttribute("firstname", firstname);
+		request.setAttribute("lastname", lastname);
+		
+		request.getRequestDispatcher("TestResponse.jsp").forward(request, response);
+		}
 	}
 
 	/**
